@@ -100,7 +100,7 @@ def Write(ser, frequency, power, serialbaud, radiobaud, parity):
     writebuf[8] = 0x30+power
     
     # Serial baud rate
-    writebuf[9] = GetBaudCode(radiobaud)
+    writebuf[9] = GetBaudCode(serialbaud)
     
     # Parity
     writebuf[10] = 0x30+parity
@@ -140,6 +140,7 @@ def GetParity(key):
     return parities[key]
     
     
+
 def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
