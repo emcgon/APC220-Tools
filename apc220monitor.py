@@ -18,8 +18,9 @@ def usage(msg=None):
 "SPEED" is the baud rate.  It is typically 9600 unless you have set your
 APC220 radio to something different.  Only 2400, 4800 and 9600 are allowed.
 
-"output-file" is the name of the file to save output to.  You can specify a
-value of "nul" here if you don't want data saved to a file.
+"output-file" is the name of the file to save output to.  You can specify
+a value of "nul", "/dev/null" or "-" here if you don't want data saved 
+to a file.
 
 """)
     sys.exit(-1)
@@ -57,7 +58,7 @@ def main():
             usage("Invalid value for COM port")
 
     f = None
-    if (args.outFile and (args.outFile != "nul") and (args.outFile != "/dev/null")):
+    if (args.outFile and (args.outFile.lower() != "nul") and (args.outFile != "/dev/null") and (args.outFile != "-")):
         f = open(args.outFile, "a")
         f.write("="*80+"\n")
         f.write("Logging started at "+str(datetime.now())+"\n")
