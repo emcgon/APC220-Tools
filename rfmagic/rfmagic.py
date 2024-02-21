@@ -43,7 +43,7 @@ def Detect(ser):
             return
         
     
-def Read(ser, sendCmd=True):
+def Read(ser, verbose, sendCmd=True):
     buf = []
     if (sendCmd): 
         # Write() calls this with sendCmd=False to read back the response
@@ -71,7 +71,7 @@ def Read(ser, sendCmd=True):
         print("Radio ID (fixed) = "+hex(buf[30]))
     
 
-def Write(ser, frequency, power, serialbaud, radiobaud, parity):
+def Write(ser, verbose, frequency, power, serialbaud, radiobaud, parity):
     print("Write(): f="+frequency+"00MHz, radio baud="+radiobaud+", power="+str(power)+", serial baud="+serialbaud+", parity="+GetParity(parity))
     writebuf = [ 0xc3,                               # "Write" command
              0x34, 0x35, 0x30, 0x30, 0x30, 0x30,     # Frequency (KHz in ASCII)
@@ -111,7 +111,7 @@ def Write(ser, frequency, power, serialbaud, radiobaud, parity):
     ser.write(writebuf)
     
 	# Handle the 32-byte response to the Write command
-    Read(False)
+    Read(ser, verbose, False)
 
     
     
@@ -184,14 +184,14 @@ def main():
 
     Detect(ser)
     print("Detected APC220 radio.  Reading current settings...")
-    Read(ser)
+    Read(ser, verbose)
     if (action == "write"):
         Detect(ser)
         print("\nWriting new settings to radio...these are the values returned during the \"write\" process:")
-        Write(ser, args.frequency, args.rfpower, args.baud, args.baud, 0)
-        Detect()
+        Write(ser, verbose, args.frequency, args.rfpower, args.baud, args.baud, 0)
+        Detect(ser)
         print("\nReading (hopefully) updated settings from radio...")
-        Read(ser)
+        Read(ser, verbose)
     print("\ndone!")
 
 
