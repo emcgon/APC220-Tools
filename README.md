@@ -101,3 +101,4 @@ The OG tool for reprogramming APC220 radios is called RF Magic and it is (IMHO) 
 
 ## APC220Programmer
 Schematic and source-code for a standalone hardware programmer based on an Arduino Pro Mini and a 16x2 LCD screen allowing APC220 radios to be quickly reprogrammed without the need for a laptop or a USB adapter.
+
