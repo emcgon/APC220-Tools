@@ -46,10 +46,10 @@ def main():
 
     args = parser.parse_args()
 
-    if (sys.platform.startwith("win")):
+    if (sys.platform.startswith("win")):
         if (not re.match(r"^COM\d+$",args.comPort,re.IGNORECASE)):
             usage("Invalid value for COM port")
-    elif (sys.platform.startwith("linux") or sys.platform.startswith("darwin")):
+    elif (sys.platform.startswith("linux") or sys.platform.startswith("darwin")):
         if (not re.match(r"^/dev/tty.+",args.comPort,re.IGNORECASE)):
             usage("Invalid value for COM port")
 
