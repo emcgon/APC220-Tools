@@ -41,7 +41,6 @@ def main():
     Read data from standard input and transmit it via an APC220 radio
     connected to the specified serial port.
     """)
-    parser.add_argument("-i", "--interactive", action="store_true", help="Run in \"interactive\" mode: read from stdin continuously and transmit in real time", default=False)
     parser.add_argument("-v", "--verbose", action="store_true", help="Produce verbose output", default=False)
     parser.add_argument("comPort", help="\"COMx\" should be the COM port that the APC220 radio is connected to (typically COM2, but check this in Device Manager to be sure)")
     parser.add_argument("baudRate", choices=("2400", "4800", "9600", "19200", "38400"), help="\"SPEED\" is the baud rate. It is typically 9600 unless you have set your APC220 radio to something different.")
@@ -60,20 +59,14 @@ def main():
 
     sleep(0.1)
     #print(sys.stdin.read().encode(encoding="ascii", errors="replace"))
+    sent = 0
     if (sys.stdin.isatty()):
+        # Interacive-mode: read and send one line at a time
         print("Reading from standard input: ", end="")
         if (sys.platform.startswith("win")):
             print("end with CTRL-Z on a line on its own")
         elif (sys.platform.startswith("linux") or sys.platform.startswith("darwin")):
             print("end with CTRL-D on a line on its own")
-
-    sent = 0
-    if (not args.interactive):
-        sent = ser.write(sys.stdin.read().encode(encoding="ascii", errors="replace")) 
-    else:
-        if (not sys.stdin.isatty()):
-            print("Interactive-mode only supported when reading from standard input", file=sys.stderr)
-            sys.exit(-1)
         while(True):
             buf = sys.stdin.readline()
             if (buf):
@@ -84,9 +77,11 @@ def main():
                     print(f"Sent {n} characters ({sent} in total)")
             else:
                 break
-    ser.flush()
-    print(f"Sent {sent} bytes. Pausing for 5 seconds to ensure output buffers flushed.")
-    sleep(5)		# ser.flush() is supposed to wait until everything is sent, but it doesn't seem to :-(
+    else:
+        sent = ser.write(sys.stdin.read().encode(encoding="ascii", errors="replace")) 
+        ser.flush()
+        print(f"Sent {sent} bytes. Pausing for 5 seconds to ensure output buffers flushed.")
+        sleep(5)		# ser.flush() is supposed to wait until everything is sent, but it doesn't seem to :-(
     ser.close()
     print("Bye!")
 
