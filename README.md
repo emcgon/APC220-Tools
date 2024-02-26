@@ -59,7 +59,7 @@ Again, this script forces RTS high, enabling the radio without having to hard-wi
 ### Instructions for use
 ```
 $ python3 apc220send.py  -h
-usage: apc220send.py [-h] [-i] [-v] comPort {2400,4800,9600,19200,38400}
+usage: apc220send.py [-h] [-v] comPort {2400,4800,9600,19200,38400}
 
 Read data from standard input and transmit it via an APC220 radio connected to the specified serial port.
 
@@ -76,7 +76,7 @@ optional arguments:
 #### Linux:
 ```
 $ sudo python3 apc220send.py /dev/ttyUSB0 9600
-Reading from standard input: end with CTRL-Z on a line on its own
+Reading from standard input: end with CTRL-D on a line on its own
 hello, world!
 14
 ```
