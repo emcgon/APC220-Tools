@@ -9,17 +9,17 @@ import serial   # Install the pyserial module to get this
 
 def usage(msg=None):
     if (msg):
-	    print("ERROR: "+msg+"\n")
+        print("ERROR: "+msg+"\n")
     print("""usage: python apc220monitor.py COMx SPEED output-file
 
-"COMx" should be the COM port that the APC220 radio is connected to 
+"COMx" should be the COM port that the APC220 radio is connected to
 (typically COM2, but check this in Device Manager to be sure).
 
 "SPEED" is the baud rate.  It is typically 9600 unless you have set your
 APC220 radio to something different.  Only 2400, 4800 and 9600 are allowed.
 
 "output-file" is the name of the file to save output to.  You can specify
-a value of "nul", "/dev/null" or "-" here if you don't want data saved 
+a value of "nul", "/dev/null" or "-" here if you don't want data saved
 to a file.
 
 """)
@@ -29,10 +29,10 @@ to a file.
 
 def signal_handler(signal, frame):
         print("Bye!")
-        sys.exit(0)			
+        sys.exit(0)
 
 
-		
+
 def main():
     # Set up signal-handler so that the script can be exitted easily
     signal.signal(signal.SIGINT, signal_handler)
