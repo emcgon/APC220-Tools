@@ -58,11 +58,25 @@ Again, this script forces RTS high, enabling the radio without having to hard-wi
 
 ### Instructions for use
 ```
+$ python3 apc220send.py  -h
+usage: apc220send.py [-h] [-i] [-v] comPort {2400,4800,9600,19200,38400}
+
+Read data from standard input and transmit it via an APC220 radio connected to the specified serial port.
+
+positional arguments:
+  comPort               "COMx" should be the COM port that the APC220 radio is connected to (typically COM2, but check this in Device Manager to be sure)
+  {2400,4800,9600,19200,38400}
+                        "SPEED" is the baud rate. It is typically 9600 unless you have set your APC220 radio to something different.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --verbose         Produce verbose output
 ```
 
 #### Linux:
 ```
 $ sudo python3 apc220send.py /dev/ttyUSB0 9600
+Reading from standard input: end with CTRL-Z on a line on its own
 hello, world!
 14
 ```
@@ -71,6 +85,7 @@ If you are typing the data to be sent (rather than piping it in from a file or a
 #### Windows:
 ```
 C:\APC220-Tools>python3 apc220send.py com11 9600
+Reading from standard input: end with CTRL-Z on a line on its own
 hello, world!
 ^Z
 14
@@ -95,6 +110,7 @@ Logging started at 2024-02-21 22:26:13.318536
 ================================================================================
 Mary had a little lamb 
 ```
+Interactive-mode (-i, --interactive) reads continuously from standard input and transmits one line at a time. This may be more
 
 ## rfmagic
 The OG tool for reprogramming APC220 radios is called RF Magic and it is (IMHO) nasty. It is only available on Windows and - in my experience - is very hit-and-miss. This is a reimplementation of RF Magic as a Python command-line tool along with an analysis of the protocol.
