@@ -8,6 +8,7 @@
 
 // Pin assignments for APC220
 #define APC220_EN_PIN     5
+
 // Pin assignments for LCD
 #define LCD_BACKLIGHT_PIN 6    // PWM-capable on an Atmega 328 !!
 #define LCD_ENABLE_PIN    7
@@ -26,6 +27,9 @@
 
 // Battery-sense pin.  10K:1K resistor-divider from battery with junction going to this pin
 #define BATTERY_SENSE_PIN  A2
+
+// Barometer pin (MPX4115A or MPXA6115A)
+#define BAROMETER_PIN      A1
 
 // Various timer values
 #define DETECT_TIMEOUT     10000  // How long to continue trying to detect a radio before giving up
@@ -84,6 +88,10 @@ void setup()
     pinMode(ROTARY_BUTTON_PIN, INPUT);
     digitalWrite(ROTARY_BUTTON_PIN, HIGH);
         
+    // Set up the analog pin connected to the barometric pressure sensor
+    pinMode(BAROMETER_PIN, INPUT);
+    analogReference(EXTERNAL);
+
     // Set up serial interface to APC220 radio
     pinMode(APC220_EN_PIN,OUTPUT);
     digitalWrite(APC220_EN_PIN,LOW);
@@ -130,11 +138,11 @@ void setup()
     Serial.println("Debug Mode");
 #endif
     // Pause for dramatic effect (also to allow A/D converter to settle to new reference, although it doesn't need this long)
-    delay(0618);
+    delay(618);
     
     // Display battery voltage 
     BatteryVoltage();
-    delay(0618);
+    delay(618);
 }
 
 
@@ -573,12 +581,34 @@ void Ping()
         digitalWrite(APC220_EN_PIN, HIGH);
         delay(100);
         Serial.begin(baudRateTable[currentSerialBaudRate]);
-        Serial.println("Humpty Dumpty sat on a wall, Humpty Dumpty had a great fall");
+        unsigned int pingCount = 0;
+        unsigned long nextPingTime = 0;
+        while(1)
+        {
+          unsigned long t=0;
+          for (int i=0 ; i < 256 ; ++i)   // Oversample to increase effective ADC resolution
+          {
+            t += analogRead(BAROMETER_PIN);
+            delay(2);
+          }
+          float pressureSensorVoltage = t * 5.0 / (1024.0 * 256.0);           // 10-bit ADC, oversampled 256 times
+          float pressure = ((pressureSensorVoltage / 5.0) - 0.095) - 0.009;   // Pressure in KPa - see datasheet
+          pingCount++;
+          Serial.println("Ping #" + String(pingCount) + " : Current pressure=" + String(pressure * 10, 2) + "hPa");
+          lcd.clear();
+          lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure * 10, 2) + "hPa");
+          nextPingTime = millis() + 1000;
+          while (millis() < nextPingTime)
+          {
+            if (DebounceRotaryButton())
+            {
+              goto EXIT_PINGS;
+            }
+          }
+        }
+EXIT_PINGS:
         Serial.end();
-        lcd.print("Message sent OK!");
     }
-    lcd.setCursor(0,1); lcd.print("Click to return");
-    WaitForClick();
 }
 
 
