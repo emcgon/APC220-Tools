@@ -586,18 +586,20 @@ void Ping()
         while(1)
         {
           unsigned long t=0;
+#define OVERSAMPLE_BAROMETER 256
+#define VREF 5.0          
+          nextPingTime = millis() + 1000;
           for (int i=0 ; i < 256 ; ++i)   // Oversample to increase effective ADC resolution
           {
             t += analogRead(BAROMETER_PIN);
             delay(2);
           }
-          float pressureSensorVoltage = t * 5.0 / (1024.0 * 256.0);           // 10-bit ADC, oversampled 256 times
-          float pressure = ((pressureSensorVoltage / 5.0) - 0.095) - 0.009;   // Pressure in KPa - see datasheet
+          float pressureSensorVoltage = (t * VREF) / (1024.0 * OVERSAMPLE_BAROMETER);
+          float pressure = ((pressureSensorVoltage / VREF) + 0.095) / 0.009;   // Pressure in KPa - see MXP4115A/MXPA6115A datasheet
           pingCount++;
-          Serial.println("Ping #" + String(pingCount) + " : Current pressure=" + String(pressure * 10, 2) + "hPa");
+          Serial.println("Ping #" + String(pingCount) + " : Vout=" + String(pressureSensorVoltage, 3) + "V Local Pressure=" + String(pressure * 10.0, 2) + "hPa");
           lcd.clear();
           lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure * 10, 2) + "hPa");
-          nextPingTime = millis() + 1000;
           while (millis() < nextPingTime)
           {
             if (DebounceRotaryButton())
