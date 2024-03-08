@@ -4,8 +4,6 @@
 
 #define NODEMO
 
-// #define DEBUG
-
 // Pin assignments for APC220
 #define APC220_EN_PIN     5
 
@@ -90,7 +88,6 @@ void setup()
         
     // Set up the analog pin connected to the barometric pressure sensor
     pinMode(BAROMETER_PIN, INPUT);
-    analogReference(EXTERNAL);
 
     // Set up serial interface to APC220 radio
     pinMode(APC220_EN_PIN,OUTPUT);
@@ -130,18 +127,15 @@ void setup()
 #endif
 
     // Set up battery-sense pin for input and use internal 1.1V reference
-    pinMode(A3,INPUT);
+    pinMode(BATTERY_SENSE_PIN, INPUT);
     analogReference(INTERNAL);
 
-#ifdef DEBUG
-    Serial.begin(115200);
-    Serial.println("Debug Mode");
-#endif
     // Pause for dramatic effect (also to allow A/D converter to settle to new reference, although it doesn't need this long)
     delay(618);
     
-    // Display battery voltage 
+    // Display battery voltage, then switch the ADC to use the 5V reference (for use with the barometric pressure sensor)
     BatteryVoltage();
+    analogReference(DEFAULT);
     delay(618);
 }
 
