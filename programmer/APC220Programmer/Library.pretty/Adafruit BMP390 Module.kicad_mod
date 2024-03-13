@@ -1,0 +1,262 @@
+(footprint "Adafruit BMP390 Module"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 2.5 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "8edbe053-ecc4-40d5-ac9c-756def419d99")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Adafruit BMP390 Module"
+		(at 0 -7.62 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "48b7e766-4840-4a90-bb68-c57bd587e84a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f2780f29-0296-40fe-b591-5af003f0a551")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5f3774bd-8b4d-4a7b-89b8-106f222e600f")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f5682a50-862c-4c16-9c66-322e302161be")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -9.99 -1.5)
+		(end 9.99 -1.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "13d17f52-5b56-4e7b-b821-6b9e81f1af25")
+	)
+	(fp_line
+		(start -9.99 1.5)
+		(end -9.99 -1.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "df928b10-4923-4679-9ec7-44cfc83af684")
+	)
+	(fp_line
+		(start -7.62 -1.5)
+		(end -7.62 1.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "4f121211-25cd-4408-b5fb-ec1311687ab4")
+	)
+	(fp_line
+		(start 9.99 -1.5)
+		(end 9.99 1.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "47c91415-3c6a-487e-a6d4-85be0c72295a")
+	)
+	(fp_line
+		(start 9.99 1.5)
+		(end -9.99 1.5)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "3ace3ab4-ff16-4306-aaf3-90e98654e30a")
+	)
+	(fp_rect
+		(start -12.7 -15.24)
+		(end 12.7 2.54)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "d22af92a-a503-4fc3-a5e9-5dd446ade0cb")
+	)
+	(fp_line
+		(start -9.74 -1.25)
+		(end 9.74 -1.25)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "2d987276-c7f3-4a50-b5d7-cdd99bfc3a6c")
+	)
+	(fp_line
+		(start -9.74 1.25)
+		(end -9.74 -1.25)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "b9750237-84b0-459f-8195-4088b2bf4c21")
+	)
+	(fp_line
+		(start 9.74 -1.25)
+		(end 9.74 1.25)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "8a3d7ac4-28ae-4c3b-a69d-57a54d873c06")
+	)
+	(fp_line
+		(start 9.74 1.25)
+		(end -9.74 1.25)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "F.CrtYd")
+		(uuid "1363c9b3-14c5-40a3-a618-5e53c7ef5801")
+	)
+	(pad "1" thru_hole oval
+		(at -8.89 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "78ed5e9b-54f8-4f50-8ca0-6f8b0cbba611")
+	)
+	(pad "2" thru_hole oval
+		(at -6.35 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "3e353265-6ee1-423f-a2e5-56095bb4e40d")
+	)
+	(pad "3" thru_hole oval
+		(at -3.81 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "209bbbd4-56bf-463e-8ad3-c73c41361b02")
+	)
+	(pad "4" thru_hole oval
+		(at -1.27 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "a70e004c-b58f-4966-91d1-070e8db47161")
+	)
+	(pad "5" thru_hole oval
+		(at 1.27 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "2e0a87d8-92f1-4de5-922f-a1f52c134660")
+	)
+	(pad "6" thru_hole oval
+		(at 3.81 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "333c1d99-b253-4688-bdd6-a06eab562cb8")
+	)
+	(pad "7" thru_hole oval
+		(at 6.35 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "f224ed61-6b0f-48f7-ab64-b7d7b07a0dfe")
+	)
+	(pad "8" thru_hole oval
+		(at 8.89 0)
+		(size 1.2 2)
+		(drill 0.8)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(thermal_bridge_angle 45)
+		(uuid "255ce5c9-d061-48bc-b4d3-bcfd197de2d5")
+	)
+	(model "/Users/eamonn/OneDrive - DQ Networks/From Dropbox/CanSat/APC220Programmer/APC220Programmer/4816 BMP390 QT.step"
+		(offset
+			(xyz -12.5 -2.54 2.6)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+	(model "${KICAD8_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x08_P2.54mm_Vertical.step"
+		(offset
+			(xyz 9 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 90)
+		)
+	)
+)
