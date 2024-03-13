@@ -27,7 +27,22 @@
 #define BATTERY_SENSE_PIN  A2
 
 // Barometer pin (MPX4115A or MPXA6115A)
+// (Remove this to omit support for MPX4115/MPLA6115A)
 #define BAROMETER_PIN      A1
+
+// Include support for Adafruit BMP390 module ()
+// (Remove this to omit support for the module)
+// #define USE_ADAFRUIT_BMP390 1
+
+// *** NB: Only only one of the two barometer options above. It makes no sense
+// ***     to include both, and the code won't compile
+#if (defined(BAROMETER_PIN) && defined(USE_ADAFRUIT_BMP390))
+#error "Don't define both BAROMETER_PIN and USE_ADAFRUIT_BMP390 - use one or the other (or neither)"
+#endif
+
+#ifdef USE_ADAFRUIT_BMP390
+// TODO: Includes
+#endif
 
 // Various timer values
 #define DETECT_TIMEOUT     10000  // How long to continue trying to detect a radio before giving up
@@ -86,8 +101,13 @@ void setup()
     pinMode(ROTARY_BUTTON_PIN, INPUT);
     digitalWrite(ROTARY_BUTTON_PIN, HIGH);
         
+#ifdef BAROMETER_PIN
     // Set up the analog pin connected to the barometric pressure sensor
     pinMode(BAROMETER_PIN, INPUT);
+#endif
+#ifdef USE_ADAFRUIT_BMP390
+    // TODO: Initialse BMP390
+#endif
 
     // Set up serial interface to APC220 radio
     pinMode(APC220_EN_PIN,OUTPUT);
@@ -579,10 +599,11 @@ void Ping()
         unsigned long nextPingTime = 0;
         while(1)
         {
-          unsigned long t=0;
+          nextPingTime = millis() + 1000;
+#ifdef BAROMETER_PIN
 #define OVERSAMPLE_BAROMETER 256
 #define VREF 5.0          
-          nextPingTime = millis() + 1000;
+          unsigned long t=0;
           for (int i=0 ; i < 256 ; ++i)   // Oversample to increase effective ADC resolution
           {
             t += analogRead(BAROMETER_PIN);
@@ -590,10 +611,25 @@ void Ping()
           }
           float pressureSensorVoltage = (t * VREF) / (1024.0 * OVERSAMPLE_BAROMETER);
           float pressure = ((pressureSensorVoltage / VREF) + 0.095) / 0.009;   // Pressure in KPa - see MXP4115A/MXPA6115A datasheet
+#endif
+#ifdef USE_ADAFRUIT_BMP390
+#endif
           pingCount++;
-          Serial.println("Ping #" + String(pingCount) + " : Vout=" + String(pressureSensorVoltage, 3) + "V Local Pressure=" + String(pressure * 10.0, 2) + "hPa");
+          Serial.print("Ping #" + String(pingCount));
+#ifdef BAROMETER_PIN
+          Serial.print(" : Vout=" + String(pressureSensorVoltage, 3));
+#endif
+#if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
+          Serial.print(" : Local Pressure=" + String(pressure * 10.0, 2) + "hPa");
+#endif
+          Serial.println("");
+
           lcd.clear();
+#if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
           lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure * 10, 2) + "hPa");
+#else
+          lcd.print("Sent " + String(pingCount) + " pings\n");
+#endif
           while (millis() < nextPingTime)
           {
             if (DebounceRotaryButton())
