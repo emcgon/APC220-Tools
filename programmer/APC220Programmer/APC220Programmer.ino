@@ -601,18 +601,11 @@ void Ping()
         {
           nextPingTime = millis() + 1000;
 #ifdef BAROMETER_PIN
-#define OVERSAMPLE_BAROMETER 256
-#define VREF 5.0          
-          unsigned long t=0;
-          for (int i=0 ; i < 256 ; ++i)   // Oversample to increase effective ADC resolution
-          {
-            t += analogRead(BAROMETER_PIN);
-            delay(2);
-          }
-          float pressureSensorVoltage = (t * VREF) / (1024.0 * OVERSAMPLE_BAROMETER);
-          float pressure = ((pressureSensorVoltage / VREF) + 0.095) / 0.009;   // Pressure in KPa - see MXP4115A/MXPA6115A datasheet
+          float pressureSensorVoltage;
+          float pressure = GetPressure(pressureSensorVoltage);
 #endif
 #ifdef USE_ADAFRUIT_BMP390
+          float pressure = GetPressure(NULL);
 #endif
           pingCount++;
           Serial.print("Ping #" + String(pingCount));
@@ -620,13 +613,13 @@ void Ping()
           Serial.print(" : Vout=" + String(pressureSensorVoltage, 3));
 #endif
 #if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
-          Serial.print(" : Local Pressure=" + String(pressure * 10.0, 2) + "hPa");
+          Serial.print(" : Local Pressure=" + String(pressure, 2) + "hPa");
 #endif
           Serial.println("");
 
           lcd.clear();
 #if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
-          lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure * 10, 2) + "hPa");
+          lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure, 2) + "hPa");
 #else
           lcd.print("Sent " + String(pingCount) + " pings\n");
 #endif
@@ -704,6 +697,40 @@ void Monitor()
     BacklightOn();
     Serial.end();
 }
+
+
+
+#if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
+void Barometer()
+{
+    // TODO: Continuously display atmospheric pressure on LCD
+}
+#endif
+
+#ifdef BAROMETER_PIN
+float GetPressure(float& pinVoltage)
+{
+#define OVERSAMPLE_BAROMETER 256
+#define VREF 5.0          
+    unsigned long t=0;
+    for (int i=0 ; i < 256 ; ++i)   // Oversample to increase effective ADC resolution
+    {
+      t += analogRead(BAROMETER_PIN);
+      delay(2);
+    }
+    float pressureSensorVoltage = (t * VREF) / (1024.0 * OVERSAMPLE_BAROMETER);
+    if (pinVoltage) pinVoltage = pressureSensorVoltage;
+    float pressure = ((pressureSensorVoltage / VREF) + 0.095) / 0.009;   // Pressure in KPa - see MXP4115A/MXPA6115A datasheet
+    return(pressure * 10.0);  // Return pressure in hPa
+}
+#endif
+
+#ifdef USE_ADAFRUIT_BMP390
+float GetPressure(fload& pinVoltage)
+{
+    // TODO
+}
+#endif
 
 
 
