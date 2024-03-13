@@ -602,7 +602,7 @@ void Ping()
           nextPingTime = millis() + 1000;
 #ifdef BAROMETER_PIN
           float pressureSensorVoltage;
-          float pressure = GetPressure(pressureSensorVoltage);
+          float pressure = GetPressure(&pressureSensorVoltage);
 #endif
 #ifdef USE_ADAFRUIT_BMP390
           float pressure = GetPressure(NULL);
@@ -708,7 +708,7 @@ void Barometer()
 #endif
 
 #ifdef BAROMETER_PIN
-float GetPressure(float& pinVoltage)
+float GetPressure(float* pinVoltage)
 {
 #define OVERSAMPLE_BAROMETER 256
 #define VREF 5.0          
@@ -719,14 +719,14 @@ float GetPressure(float& pinVoltage)
       delay(2);
     }
     float pressureSensorVoltage = (t * VREF) / (1024.0 * OVERSAMPLE_BAROMETER);
-    if (pinVoltage) pinVoltage = pressureSensorVoltage;
+    if (pinVoltage) *pinVoltage = pressureSensorVoltage;
     float pressure = ((pressureSensorVoltage / VREF) + 0.095) / 0.009;   // Pressure in KPa - see MXP4115A/MXPA6115A datasheet
     return(pressure * 10.0);  // Return pressure in hPa
 }
 #endif
 
 #ifdef USE_ADAFRUIT_BMP390
-float GetPressure(fload& pinVoltage)
+float GetPressure(float* pinVoltage)
 {
     // TODO
 }
