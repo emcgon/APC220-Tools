@@ -41,7 +41,8 @@
 #endif
 
 #ifdef USE_ADAFRUIT_BMP390
-// TODO: Includes
+#include <Adafruit_Sensor.h>
+#include "Adafruit_BMP3XX.h"
 #endif
 
 // Various timer values
@@ -82,6 +83,11 @@ Encoder rotary(ROTARY_B_PIN, ROTARY_A_PIN);
 int currentSerialBaudRate=-1;
 unsigned long backlightOffTime=0;
 
+#ifdef USE_ADAFRUIT_BMP390
+Adafruit_BMP3XX bmp;
+bool havebmp = FALSE;
+#endif
+
 #ifdef DEMO
 struct APC220data demoRadio;
 #endif
@@ -106,7 +112,20 @@ void setup()
     pinMode(BAROMETER_PIN, INPUT);
 #endif
 #ifdef USE_ADAFRUIT_BMP390
-    // TODO: Initialse BMP390
+    if (bmp.begin_I2C())
+    {
+//        Serial.println("Initialised BMP385 on I2C bus");
+        havebmp = TRUE;
+        bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
+        bmp.setPressureOversampling(BMP3_OVERSAMPLING_4X);
+        bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
+        bmp.setOutputDataRate(BMP3_ODR_50_HZ);
+        bmp.performReading();   // First reading looks to be crap...throw it away
+    }
+    else
+    {
+        // TODO: Handle this !
+    }
 #endif
 
     // Set up serial interface to APC220 radio
@@ -728,7 +747,16 @@ float GetPressure(float* pinVoltage)
 #ifdef USE_ADAFRUIT_BMP390
 float GetPressure(float* pinVoltage)
 {
-    // TODO
+    if (pinVoltage) *pinVoltage = 0.0;    // Shouldn't ever happen
+    if (havebmp)
+    {
+        if (!bmp.performReading()) 
+        {
+            return(0.0);
+        }
+        return(bmp.pressure / 100.0);
+    }
+    return(0.0);
 }
 #endif
 
