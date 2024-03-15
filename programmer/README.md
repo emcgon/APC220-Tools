@@ -9,3 +9,24 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 
 ![alt text](https://github.com/emcgon/APC220-Tools/blob/main/programmer/APC220Programmer/APC220Programmer-back.jpg?raw=true)
 ![alt text](https://github.com/emcgon/APC220-Tools/blob/main/programmer/APC220Programmer/APC220Programmer-front.jpg?raw=true)
+
+## Bill of Materials
+
+|Part|Description|Notes|
+|----|-----------|-----|
+|A2|Arduino_Nano_v3.x|	
+|BT1|Pin Header||
+|D1|1N4001|	~||
+|DS1|WC1602A|16x2 LCD Display with "standard" interface|
+|Q1|2N7000 MOSFET||
+|R1|10K resistor|1/4W axial|
+|R2,R3|1K resistor|1/4W axial|
+|RV1|10K trimpot||
+|SW1|Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical|
+|SW2|Rotary Encoder with Switch|
+|U1|Adafruit BMP390 Module|Optional|
+|U2|MPXH6115A6U/T1|Optional|
+|U3|Socket for APC220: 7x1 pin-header and 2x1 pin-header|
+|PCB|
+|Case|PCB dimensioned to fit in a Hammond Manufacturing 1591CS box|
+
