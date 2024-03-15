@@ -3,7 +3,11 @@
 #include <LiquidCrystal.h>
 #include <Encoder.h>
 
-#define NODEMO
+// Define DEMO to simulate the presence of a radio
+#define DEMO
+
+// Define DEBUG to send debugging messages to the serial port (9600 baud)
+// #define DEBUG
 
 // Pin assignments for APC220
 #define APC220_EN_PIN     5
@@ -116,9 +120,11 @@ void setup()
 #ifdef USE_ADAFRUIT_BMP390
     if (bmp.begin_I2C())
     {
+#ifdef DEBUG      
         Serial.begin(9600);
         Serial.println("Initialised BMP385 on I2C bus");
         Serial.end();
+#endif        
         havebmp = TRUE;
         bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
         bmp.setPressureOversampling(BMP3_OVERSAMPLING_4X);
@@ -127,10 +133,12 @@ void setup()
         bmp.performReading();   // First reading looks to be crap...throw it away
     }
     else
-    {
+    {      
+#ifdef DEBUG      
         Serial.begin(9600);
         Serial.println("Failed to initialise BMP390");
         Serial.end();
+#endif        
     }
 #endif
 
@@ -651,9 +659,11 @@ void Ping()
 
           lcd.clear();
 #if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
-          lcd.print("Sent " + String(pingCount) + " pings\nPressure: " + String(pressure, 2) + "hPa");
+          lcd.print("Sent " + String(pingCount) + " pings");
+          lcd.setCursor(0,1);
+          lcd.print(String(pressure, 2) + "hPa");
 #else
-          lcd.print("Sent " + String(pingCount) + " pings\n");
+          lcd.print("Sent " + String(pingCount) + " pings");
 #endif
           while (millis() < nextPingTime)
           {
@@ -742,8 +752,13 @@ void Barometer()
     while(1)
     {
         lcd.setCursor(0, 1);
-        lcd.write(String(GetPressure(), 2).c_str());
-        lcd.write("hPa   ");
+#ifdef BAROMETER_PIN
+          float pressure = GetPressure(NULL);
+#endif
+#ifdef USE_ADAFRUIT_BMP390
+          float pressure = GetPressure();
+#endif        
+        lcd.print(String(pressure, 2) + "hPa");
         unsigned long nextUpdate = millis() + 1000;
         while (millis() < nextUpdate)
         {
@@ -757,7 +772,7 @@ void Barometer()
 #endif
 
 #ifdef BAROMETER_PIN
-float GetPressure(float* pinVoltage=NULL)
+float GetPressure(float* pinVoltage)
 {
 #define OVERSAMPLE_BAROMETER 256
 #define VREF 5.0          
