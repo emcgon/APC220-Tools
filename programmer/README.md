@@ -24,7 +24,7 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 |RV1|10K trimpot|Bourns 3296W vertical|
 |SW1|2x1 2.54mm pin Header (off-board SPST power switch)|
 |SW2|Rotary Encoder with Switch|ALPS EC11E series or equivalent|
-|U1|Adafruit BMP390 Module|Optional...see note below|
+|U1|Adafruit BMP390 Module (https://www.adafruit.com/product/4816)|Optional...see note below|
 |U2|MPXH6115A6U/T1|Optional...see note below|
 |U3|Socket for APC220: 7x1 and 2x1 pin-header sockets|
 |PCB||
