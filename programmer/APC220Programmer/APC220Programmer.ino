@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <Wire.h>
 #include <LiquidCrystal.h>
 #include <Encoder.h>
@@ -28,11 +29,11 @@
 
 // Barometer pin (MPX4115A or MPXA6115A)
 // (Remove this to omit support for MPX4115/MPLA6115A)
-#define BAROMETER_PIN      A1
+// #define BAROMETER_PIN      A1
 
 // Include support for Adafruit BMP390 module ()
 // (Remove this to omit support for the module)
-// #define USE_ADAFRUIT_BMP390 1
+#define USE_ADAFRUIT_BMP390 1
 
 // *** NB: Only only one of the two barometer options above. It makes no sense
 // ***     to include both, and the code won't compile
@@ -41,8 +42,9 @@
 #endif
 
 #ifdef USE_ADAFRUIT_BMP390
+// Requires the Adafruit BMP3XX Library and its dependancies
 #include <Adafruit_Sensor.h>
-#include "Adafruit_BMP3XX.h"
+#include <Adafruit_BMP3XX.h>
 #endif
 
 // Various timer values
@@ -182,22 +184,61 @@ void setup()
 
 void loop()
 {
-    static char *mainMenuItems[] = 
-    {
-        "Read",
-        "Write",
-        "Ping",
-        "Monitor"
+    struct MAIN_MENU_ITEMS{
+        char* menuText;
+        unsigned char x, y;
+        unsigned char menuIndex;
     };
+
+#define MAIN_MENU_READ 1
+#define MAIN_MENU_WRITE 2
+#define MAIN_MENU_PING 3
+#define MAIN_MENU_BAROMETER 4
+#define MAIN_MENU_MONITOR 5
+
+#if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
+    static struct MAIN_MENU_ITEMS mainMenuItems[] = 
+    {
+      /*
+      +----------------+
+      | Read     Write |
+      | Ping  Bar  Mon |
+      +----------------+
+      */
+      { "Read", 1, 0, MAIN_MENU_READ },
+      { "Write", 10, 0, MAIN_MENU_WRITE },
+      { "Ping", 1, 1, MAIN_MENU_PING },
+      { "Bar", 7, 1, MAIN_MENU_BAROMETER },
+      { "Mon", 12, 1, MAIN_MENU_MONITOR },
+    };
+    static unsigned char mainMenuItemCount=5;
+#else
+    static struct MAIN_MENU_ITEMS mainMenuItems[] = 
+    {
+      /*
+      +----------------+
+      | Read     Write |
+      | Ping   Monitor |
+      +----------------+
+      */
+      { "Read", 1, 0, MAIN_MENU_READ },
+      { "Write", 10, 0, MAIN_MENU_WRITE },
+      { "Ping", 1, 1, MAIN_MENU_PING },
+      { "Monitor", 8, 1, MAIN_MENU_MONITOR },
+    }
+    static unsigned char mainMenuItemCount=4;
+#endif
     int lastRotaryPosition=0;
     static byte currentMenuItem=0;
     
     // Display main menu items
     lcd.clear();
-    lcd.setCursor(1,0); lcd.print(mainMenuItems[0]); 
-    lcd.setCursor(16-(strlen(mainMenuItems[1])+1),0); lcd.print(mainMenuItems[1]);    
-    lcd.setCursor(1,1); lcd.print(mainMenuItems[2]);
-    lcd.setCursor(16-(strlen(mainMenuItems[3])+1),1); lcd.print(mainMenuItems[3]);
+    for (int i=0 ; i < mainMenuItemCount ; ++i)
+    {
+        lcd.setCursor(mainMenuItems[i].x, mainMenuItems[i].y);
+        lcd.print(mainMenuItems[i].menuText);
+        mainMenuItemCount++;
+    }
     
     // Wait for an event. An event is either the rotary encoder moving 
     // by ROTARY_SWITCH_INDENTS or the button being pressed
@@ -206,28 +247,10 @@ void loop()
     {
                 
         // Draw brackets around current menu item
-        switch(currentMenuItem)
-        {
-            case 0:
-            lcd.setCursor(0,0); lcd.print('[');
-            lcd.setCursor(strlen(mainMenuItems[0])+1,0); lcd.write(']');
-            break;
-
-            case 1:
-            lcd.setCursor(15,0); lcd.write(']');
-            lcd.setCursor(15-(strlen(mainMenuItems[1])+1),0); lcd.write('[');
-            break;
-                    
-            case 2:
-            lcd.setCursor(0,1); lcd.write('[');
-            lcd.setCursor(strlen(mainMenuItems[2])+1,1); lcd.write(']');
-            break;
-
-            case 3:
-            lcd.setCursor(15,1); lcd.write(']');
-            lcd.setCursor(15-(strlen(mainMenuItems[3])+1),1); lcd.write('[');
-            break;
-        }
+        lcd.setCursor(mainMenuItems[currentMenuItem].x-1, mainMenuItems[currentMenuItem].y);
+        lcd.write('[');
+        lcd.setCursor(mainMenuItems[currentMenuItem].x + strlen(mainMenuItems[currentMenuItem].menuText), mainMenuItems[currentMenuItem].y);
+        lcd.write(']');
 
         // See if the rotary encoder has moved
         int rotaryPosition = rotary.read();
@@ -238,35 +261,17 @@ void loop()
             {
                 currentMenuItem--;
             }
-            else if ((rotaryPosition > lastRotaryPosition) && (currentMenuItem < 3))
+            else if ((rotaryPosition > lastRotaryPosition) && (currentMenuItem < mainMenuItemCount))
             {
                 currentMenuItem++;
             }
             if (currentMenuItem != lastMenuItem)
             {
                 // Erase brackets around last
-                switch(lastMenuItem)
-                {
-                    case 0:
-                    lcd.setCursor(0,0); lcd.write(' ');
-                    lcd.setCursor(strlen(mainMenuItems[0])+1,0); lcd.write(' ');
-                    break;
-
-                    case 1:
-                    lcd.setCursor(15,0); lcd.write(' ');
-                    lcd.setCursor(15-(strlen(mainMenuItems[1])+1),0); lcd.write(' ');
-                    break;
-                    
-                    case 2:
-                    lcd.setCursor(0,1); lcd.write(' ');
-                    lcd.setCursor(strlen(mainMenuItems[2])+1,1); lcd.write(' ');
-                    break;
-
-                    case 3:
-                    lcd.setCursor(15,1); lcd.write(' ');
-                    lcd.setCursor(15-(strlen(mainMenuItems[3])+1),1); lcd.write(' ');
-                    break;
-                }
+                lcd.setCursor(mainMenuItems[lastMenuItem].x-1, mainMenuItems[lastMenuItem].y);
+                lcd.write(' ');
+                lcd.setCursor(mainMenuItems[lastMenuItem].x + strlen(mainMenuItems[lastMenuItem].menuText), mainMenuItems[lastMenuItem].y);
+                lcd.write(' ');
             }
             lastRotaryPosition = rotaryPosition;
             BacklightOn();
@@ -276,18 +281,21 @@ void loop()
         if (DebounceRotaryButton())
         {
             BacklightOn();
-            switch(currentMenuItem)
+            switch(mainMenuItems[currentMenuItem].menuIndex)
             {
-                case 0:
+                case MAIN_MENU_READ:
                     Read();
                     break;
-                case 1:
+                case MAIN_MENU_WRITE:
                     Write();
                     break;
-                case 2:
+                case MAIN_MENU_PING:
                     Ping();
                     break;
-                case 3:
+                case MAIN_MENU_BAROMETER:
+                    Barometer();
+                    break;
+                case MAIN_MENU_MONITOR:
                     Monitor();
                     break;
             }
@@ -624,7 +632,7 @@ void Ping()
           float pressure = GetPressure(&pressureSensorVoltage);
 #endif
 #ifdef USE_ADAFRUIT_BMP390
-          float pressure = GetPressure(NULL);
+          float pressure = GetPressure();
 #endif
           pingCount++;
           Serial.print("Ping #" + String(pingCount));
@@ -745,9 +753,8 @@ float GetPressure(float* pinVoltage)
 #endif
 
 #ifdef USE_ADAFRUIT_BMP390
-float GetPressure(float* pinVoltage)
+float GetPressure()
 {
-    if (pinVoltage) *pinVoltage = 0.0;    // Shouldn't ever happen
     if (havebmp)
     {
         if (!bmp.performReading()) 
