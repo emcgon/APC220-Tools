@@ -116,7 +116,9 @@ void setup()
 #ifdef USE_ADAFRUIT_BMP390
     if (bmp.begin_I2C())
     {
-//        Serial.println("Initialised BMP385 on I2C bus");
+        Serial.begin(9600);
+        Serial.println("Initialised BMP385 on I2C bus");
+        Serial.end();
         havebmp = TRUE;
         bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
         bmp.setPressureOversampling(BMP3_OVERSAMPLING_4X);
@@ -126,7 +128,9 @@ void setup()
     }
     else
     {
-        // TODO: Handle this !
+        Serial.begin(9600);
+        Serial.println("Failed to initialise BMP390");
+        Serial.end();
     }
 #endif
 
@@ -225,7 +229,7 @@ void loop()
       { "Write", 10, 0, MAIN_MENU_WRITE },
       { "Ping", 1, 1, MAIN_MENU_PING },
       { "Monitor", 8, 1, MAIN_MENU_MONITOR },
-    }
+    };
     static unsigned char mainMenuItemCount=4;
 #endif
     int lastRotaryPosition=0;
@@ -237,7 +241,6 @@ void loop()
     {
         lcd.setCursor(mainMenuItems[i].x, mainMenuItems[i].y);
         lcd.print(mainMenuItems[i].menuText);
-        mainMenuItemCount++;
     }
     
     // Wait for an event. An event is either the rotary encoder moving 
@@ -261,7 +264,7 @@ void loop()
             {
                 currentMenuItem--;
             }
-            else if ((rotaryPosition > lastRotaryPosition) && (currentMenuItem < mainMenuItemCount))
+            else if ((rotaryPosition > lastRotaryPosition) && (currentMenuItem < (mainMenuItemCount-1)))
             {
                 currentMenuItem++;
             }
@@ -292,9 +295,11 @@ void loop()
                 case MAIN_MENU_PING:
                     Ping();
                     break;
+#if (defined(BAROMETER_PIN) || defined(USE_ADAFRUIT_BMP390))
                 case MAIN_MENU_BAROMETER:
                     Barometer();
                     break;
+#endif                    
                 case MAIN_MENU_MONITOR:
                     Monitor();
                     break;
@@ -731,11 +736,28 @@ void Monitor()
 void Barometer()
 {
     // TODO: Continuously display atmospheric pressure on LCD
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.write("Current Pressure");
+    while(1)
+    {
+        lcd.setCursor(0, 1);
+        lcd.write(String(GetPressure(), 2).c_str());
+        lcd.write("hPa   ");
+        unsigned long nextUpdate = millis() + 1000;
+        while (millis() < nextUpdate)
+        {
+            if (DebounceRotaryButton())
+            {
+                return;
+            }
+        }
+    }
 }
 #endif
 
 #ifdef BAROMETER_PIN
-float GetPressure(float* pinVoltage)
+float GetPressure(float* pinVoltage=NULL)
 {
 #define OVERSAMPLE_BAROMETER 256
 #define VREF 5.0          
