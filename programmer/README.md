@@ -15,8 +15,8 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 |Part|Description|Notes|
 |----|-----------|-----|
 |A2|Arduino Nano v3.x|	
-|BT1|2x1 2.54mm pin Header (for 9V PP3 battery)|For connection to an off-board battery clip|
-|D1|1N4001|For reverse-polarity protection: almost any diode would do|
+|BT1|Molex KK254 (P/N 22232021) power connector or  similar _or_ 2x1 2.54mm pin Header|For connection to an off-board 9V PP3 battery clip|
+|D1|1N4001|For reverse-polarity protection: almost any diode would do. If you trust yourself not to connect the batter the wrong way around, you could omit this and just fit a wire jumper 😉|
 |DS1|16x2 LCD Display with "standard" Hitachi HD44780 16-pin interface||
 |Q1|2N7000 MOSFET|TO92 case|
 |R1|10K resistor|6.5mm, 1/4W axial|
@@ -24,7 +24,7 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 |RV1|10K trimpot|Bourns 3296W vertical|
 |SW1|2x1 2.54mm pin Header (off-board SPST power switch)|
 |SW2|Rotary Encoder with Switch|ALPS EC11E series or equivalent|
-|U1|Adafruit BMP390 Module|Optional...see note below|
+|U1|Adafruit BMP390 Module (https://www.adafruit.com/product/4816)|Optional...see note below|
 |U2|MPXH6115A6U/T1|Optional...see note below|
 |U3|Socket for APC220: 7x1 and 2x1 pin-header sockets|
 |PCB||

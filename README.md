@@ -116,5 +116,5 @@ Interactive-mode (-i, --interactive) reads continuously from standard input and 
 The OG tool for reprogramming APC220 radios is called RF Magic and it is (IMHO) nasty. It is only available on Windows and - in my experience - is very hit-and-miss. This is a reimplementation of RF Magic as a Python command-line tool along with an analysis of the protocol.
 
 ## APC220Programmer
-Schematic and source-code for a standalone hardware programmer based on an Arduino Pro Mini and a 16x2 LCD screen allowing APC220 radios to be quickly reprogrammed without the need for a laptop or a USB adapter.
+Schematic and source-code for a standalone hardware programmer based on an Arduino Nano and a 16x2 LCD screen allowing APC220 radios to be quickly reprogrammed without the need for a laptop or a USB adapter.
 
