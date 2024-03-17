@@ -5931,7 +5931,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+		(property "Footprint" "Connector_Molex:Molex_KK-254_AE-6410-02A_1x02_P2.54mm_Vertical"
 			(at 31.115 47.371 90)
 			(effects
 				(font
@@ -5940,7 +5940,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
+		(property "Datasheet" "https://www.molex.com/en-us/products/part-detail/22232021"
 			(at 31.115 47.371 90)
 			(effects
 				(font
