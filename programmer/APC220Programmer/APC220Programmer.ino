@@ -85,7 +85,7 @@ unsigned short int baudRateTable[] =
 ** Global variables
 */
 LiquidCrystal lcd(LCD_RS_PIN, LCD_ENABLE_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
-Encoder rotary(ROTARY_B_PIN, ROTARY_A_PIN);
+Encoder rotary(ROTARY_A_PIN, ROTARY_B_PIN);
 int currentSerialBaudRate=-1;
 unsigned long backlightOffTime=0;
 
