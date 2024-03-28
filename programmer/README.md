@@ -21,6 +21,7 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 |Q1|2N7000 MOSFET|TO92 case|
 |R1|10K resistor|6.5mm, 1/4W axial|
 |R2,R3|1K resistor|6.5mm, 1/4W axial|
+|R4|220R resistor|6.5mm, 1/4W axial. Only required if your display doesn't have an on-board current-limiting resistor for the backlight (some do, some don't). Can be replaced with a wire link otherwise.|
 |RV1|10K trimpot|Bourns 3296W vertical|
 |SW1|2x1 2.54mm pin Header (off-board SPST power switch)|
 |SW2|Rotary Encoder with Switch|ALPS EC11E series or equivalent|
