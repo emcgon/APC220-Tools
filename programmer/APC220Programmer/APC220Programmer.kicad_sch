@@ -6,10 +6,9 @@
 	(paper "A4")
 	(title_block
 		(title "APC 220 Programmer")
-		(date "2024-02-21")
-		(rev "0.1")
+		(date "2024-03-28")
+		(rev "1.2")
 		(company "Eamonn McGonigle")
-		(comment 4 "*** Draft subject to final validation against working prototype ***")
 	)
 	(lib_symbols
 		(symbol "+5V_1"

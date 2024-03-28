@@ -9,8 +9,8 @@
 	(paper "A4")
 	(title_block
 		(title "APC220 Programmer")
-		(date "2024-03-16")
-		(rev "1.1")
+		(date "2024-03-28")
+		(rev "1.2")
 		(company "Eamonn McGonigle")
 		(comment 1 "https://github.com/emcgon/APC220-Tools")
 		(comment 4 "Should fit in a Hammond 1591CS box")
@@ -4842,7 +4842,7 @@
 		)
 		(fp_arc
 			(start 63.70066 -22.9997)
-			(mid 64.05448 -22.853151)
+			(mid 64.054515 -22.853157)
 			(end 64.20104 -22.49932)
 			(stroke
 				(width 0.12)
