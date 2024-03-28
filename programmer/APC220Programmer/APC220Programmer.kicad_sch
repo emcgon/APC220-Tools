@@ -4168,7 +4168,7 @@
 	)
 	(wire
 		(pts
-			(xy 69.215 142.24) (xy 94.615 142.24)
+			(xy 69.215 142.24) (xy 81.28 142.24)
 		)
 		(stroke
 			(width 0)
@@ -4755,6 +4755,16 @@
 			(type default)
 		)
 		(uuid "91f885be-d585-451f-9016-bf98d464a528")
+	)
+	(wire
+		(pts
+			(xy 88.9 142.24) (xy 94.615 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94980cc8-397f-42b9-b529-2e8179d06bb2")
 	)
 	(polyline
 		(pts
@@ -6920,6 +6930,73 @@
 			(project "APC220Programmer"
 				(path "/d0e4a882-7d08-4c2e-a090-dd49362d99ff"
 					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 85.09 142.24 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2981ee4a-5308-416f-b0d4-3857e886e2bf")
+		(property "Reference" "R4"
+			(at 85.09 137.414 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "220R"
+			(at 85.09 139.954 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+			(at 85.09 144.018 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 85.09 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 85.09 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "e20acd91-29ce-43eb-94a1-0c0b6aebf3af")
+		)
+		(pin "1"
+			(uuid "f46e1376-fdf5-4d35-98d9-ac9fbaa3b0a4")
+		)
+		(instances
+			(project "APC220Programmer"
+				(path "/d0e4a882-7d08-4c2e-a090-dd49362d99ff"
+					(reference "R4")
 					(unit 1)
 				)
 			)

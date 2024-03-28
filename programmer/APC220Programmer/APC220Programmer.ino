@@ -4,7 +4,7 @@
 #include <Encoder.h>
 
 // Define DEMO to simulate the presence of a radio
-#define DEMO
+// #define DEMO
 
 // Define DEBUG to send debugging messages to the serial port (9600 baud)
 // #define DEBUG
