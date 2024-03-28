@@ -6,6 +6,9 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 ![alt text](https://github.com/emcgon/APC220-Tools/blob/main/programmer/APC220Programmer/APC220Programmer-back.jpg?raw=true)
 ![alt text](https://github.com/emcgon/APC220-Tools/blob/main/programmer/APC220Programmer/APC220Programmer-front.jpg?raw=true)
 
+## Schematic
+![alt text](https://github.com/emcgon/APC220-Tools/blob/main/programmer/APC220Programmer.svg?raw=true)
+
 ## Bill of Materials
 
 |Part|Description|Notes|
