@@ -1,9 +1,5 @@
 # APC220 Programmer
-An Arduino program and schematic for a hardware programmer for APC220 radios. See a quick demo at https://www.youtube.com/watch?v=wyKSJeXSkzc (the video was intended for a few people involved in organising the local [CanSat](https://esero.ie/cansat/) competition: that's what the references to "launchers" are all about).
-
-**NB: Schematic is a work in progress: I'm not sure it is 100% accurate. I need to reverse-engineer my working unit to verify some details. I will add the Kicad file here when complete.**
-
-<ins>UPDATE:</ins> There is a whole new version on the way. What started out as a quick task to draw up the schematic for the existing unit in Kicad has grown a bit. I have the schematic done and a PCB layout designed, dimensioned to fit into a standard Hammond Manufacturing project box (widely available). I am currently awaiting delivery of PCBs from the fab. Once I have those and have tested them, I'll post the updated software, the Kicad files and a final BoM here (along with some pictures). Stay tuned !
+An Arduino program and schematic for a hardware programmer for APC220 radios. See a quick demo (of an older prototype) at https://www.youtube.com/watch?v=wyKSJeXSkzc (the video was intended for a few people involved in organising the local [CanSat](https://esero.ie/cansat/) competition: that's what the references to "launchers" are all about).
 
 Here are 3D renders of the front and back of the current iteration of the PCB from KiCad:-
 
@@ -36,6 +32,7 @@ Here are 3D renders of the front and back of the current iteration of the PCB fr
 U1 and U2 are barometric pressure sensors and are both optional. If you don't want a barometer function, you can omit both. If you _do_ want the barometer function, you only need one or the other. U1 (the Adafruit one) is probably preferable: it is cheaper, easier to obtain and more accurate (and we love Adafruit because they are wonderful people :heart:!)
 
 ## Assembly Tips
+- It is a tight fit into a Hammond Manufacturing 1591CS box, but it does fit. In my prototype build, I had to secure the battery to the lid with a Velco cable-tie to fit it in. 
 - The PCB is attached to the case by M3 bolts which go through the display and the PCB and the rotary encoder. Use spacers between the display and PCB mounting holes to keep the display parallel to the PCB. Make those spacers large enough so that the front surface of the display PCB is in the same plane as the top surface of the rotary encoder. This should ensure that the entire assembly is securly attached to the case and should leave room under the display so that it doesn't come into contact with the Arduino pins
 - Mount the Arduino Nano high enough off the surface of the PCB so that there is only a minimial amount of pin length protruding below. Again, the objective is to ensure that Arduino pins sticking out underneath the display don't touch any part of the display
 - When mounting the sockets for the APC220, temporary put an APC220 into the two sockets to ensure perfect alignment
